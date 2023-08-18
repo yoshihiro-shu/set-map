@@ -11,7 +11,7 @@ func TestSADD(t *testing.T) {
 		inputs []interface{}
 	}
 	type want struct {
-		expected setMap
+		expected SetMap
 	}
 	tests := []struct {
 		Name string
@@ -24,7 +24,7 @@ func TestSADD(t *testing.T) {
 				inputs: []interface{}{1, 3, 5},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					1: isMember,
 					3: isMember,
 					5: isMember,
@@ -37,7 +37,7 @@ func TestSADD(t *testing.T) {
 				inputs: []interface{}{1, 3, 5, "hoge", "fuga"},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					1:      isMember,
 					3:      isMember,
 					5:      isMember,
@@ -52,7 +52,7 @@ func TestSADD(t *testing.T) {
 				inputs: []interface{}{1, 1, 3, 3, 5, 5},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					1: isMember,
 					3: isMember,
 					5: isMember,
@@ -65,7 +65,7 @@ func TestSADD(t *testing.T) {
 				inputs: []interface{}{1, 1, 3, 3, 5, 5, "hoge", "fuga", "hoge", "fuga"},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					1:      isMember,
 					3:      isMember,
 					5:      isMember,
@@ -77,7 +77,7 @@ func TestSADD(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		res := setMap{}
+		res := SetMap{}
 		res.SADD(test.Args.inputs...)
 		assert.Equal(t, test.Want.expected, res)
 	}
@@ -86,10 +86,10 @@ func TestSADD(t *testing.T) {
 func TestSREM(t *testing.T) {
 	type args struct {
 		inputs     []interface{}
-		initSetMap setMap
+		initSetMap SetMap
 	}
 	type want struct {
-		expected setMap
+		expected SetMap
 	}
 	tests := []struct {
 		Name string
@@ -100,14 +100,14 @@ func TestSREM(t *testing.T) {
 			Name: "Remove an integer",
 			Args: args{
 				inputs: []interface{}{1},
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1: isMember,
 					3: isMember,
 					5: isMember,
 				},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					3: isMember,
 					5: isMember,
 				},
@@ -117,14 +117,14 @@ func TestSREM(t *testing.T) {
 			Name: "Remove integers",
 			Args: args{
 				inputs: []interface{}{1, 3},
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1: isMember,
 					3: isMember,
 					5: isMember,
 				},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					5: isMember,
 				},
 			},
@@ -133,14 +133,14 @@ func TestSREM(t *testing.T) {
 			Name: "Remove a string",
 			Args: args{
 				inputs: []interface{}{"hoge"},
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					"hoge": isMember,
 					"fuga": isMember,
 					"piyo": isMember,
 				},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					"fuga": isMember,
 					"piyo": isMember,
 				},
@@ -150,14 +150,14 @@ func TestSREM(t *testing.T) {
 			Name: "Remove strings",
 			Args: args{
 				inputs: []interface{}{"hoge", "fuga"},
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					"hoge": isMember,
 					"fuga": isMember,
 					"piyo": isMember,
 				},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					"piyo": isMember,
 				},
 			},
@@ -166,7 +166,7 @@ func TestSREM(t *testing.T) {
 			Name: "Remove integers and strings",
 			Args: args{
 				inputs: []interface{}{3, 5, "hoge", "fuga"},
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1:      isMember,
 					3:      isMember,
 					5:      isMember,
@@ -176,7 +176,7 @@ func TestSREM(t *testing.T) {
 				},
 			},
 			Want: want{
-				expected: setMap{
+				expected: SetMap{
 					1:      isMember,
 					"piyo": isMember,
 				},
@@ -194,7 +194,7 @@ func TestSREM(t *testing.T) {
 func TestSISMEMBER(t *testing.T) {
 	type args struct {
 		inputs     interface{}
-		initSetMap setMap
+		initSetMap SetMap
 	}
 	type want struct {
 		expected bool
@@ -208,7 +208,7 @@ func TestSISMEMBER(t *testing.T) {
 			Name: "Check Exists integer",
 			Args: args{
 				inputs: 1,
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1: isMember,
 					3: isMember,
 					5: isMember,
@@ -222,7 +222,7 @@ func TestSISMEMBER(t *testing.T) {
 			Name: "Check Exists string",
 			Args: args{
 				inputs: "hoge",
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					"hoge": isMember,
 					"fuga": isMember,
 					"piyo": isMember,
@@ -236,7 +236,7 @@ func TestSISMEMBER(t *testing.T) {
 			Name: "Check Exists not exists integer",
 			Args: args{
 				inputs: 10,
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1: isMember,
 					3: isMember,
 					5: isMember,
@@ -250,7 +250,7 @@ func TestSISMEMBER(t *testing.T) {
 			Name: "Check Exists not exists string",
 			Args: args{
 				inputs: "paco",
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					"hoge": isMember,
 					"fuga": isMember,
 					"piyo": isMember,
@@ -271,7 +271,7 @@ func TestSISMEMBER(t *testing.T) {
 
 func TestSCARD(t *testing.T) {
 	type args struct {
-		initSetMap setMap
+		initSetMap SetMap
 	}
 	type want struct {
 		expected int
@@ -284,7 +284,7 @@ func TestSCARD(t *testing.T) {
 		{
 			Name: "Length 3",
 			Args: args{
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1: isMember,
 					3: isMember,
 					5: isMember,
@@ -297,7 +297,7 @@ func TestSCARD(t *testing.T) {
 		{
 			Name: "Length 5",
 			Args: args{
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1: isMember,
 					2: isMember,
 					3: isMember,
@@ -312,7 +312,7 @@ func TestSCARD(t *testing.T) {
 		{
 			Name: "Length 10",
 			Args: args{
-				initSetMap: setMap{
+				initSetMap: SetMap{
 					1:  isMember,
 					2:  isMember,
 					3:  isMember,
